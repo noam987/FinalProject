@@ -1,8 +1,8 @@
 public class Board {
-    char player1;
-    char player2;
-    int turn = 0;
-    char[][] board = new char[3][3];
+    private char player1;
+    private char player2;
+    private int turn = 0;
+    private char[][] board = new char[3][3];
     public Board(char p1, char p2){
         player1 = p1;
         player2 = p2;
@@ -28,6 +28,9 @@ public class Board {
             return 'k';
         }
         else return 't';
+    }
+    public char[][] getBoard(){
+        return board;
     }
     public String toString(){
         String output = "";
