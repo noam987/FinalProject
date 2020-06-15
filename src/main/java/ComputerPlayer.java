@@ -1,64 +1,95 @@
 public class ComputerPlayer {
-    int count = 0;
     Utils utils;
    public ComputerPlayer(Utils util) {
        utils = util;
    }
-   public int minMax(char[][] board, int depth, boolean isMax){
-       count++;
+
+    /**recursive method that finds the optimal path of moves.
+     * uses alpha and beta to minimize the number of loops.
+     *
+     * @param board board to place moves on
+     * @param depth how many moves have been played
+     * @param isMax whether the player is the maximizer
+     * @param alpha the jighest value found so far
+     * @param beta the lowest value found so far
+     * @return the score of the position
+     */
+   public int minMax(char[][] board, int depth, boolean isMax, int alpha, int beta){
+       //exit conditions
        int score = utils.score(board);
-       if (score == 10){
+       if (score > 0){
            return score-depth;
        }
-       if (score == -10){
+       if (score < 0){
            return score + depth;
        }
        if (!utils.hasMovesLeft(board)){
            return 0;
        }
+       int best;
+       // checks which player is moving
        if(isMax){
-           int best = -10000;
+           best = -10000;
+           //loops through all available spaces.
            for(int i = 0; i < board.length; i++){
                for(int j = 0; j < board.length; j++){
-                   if (board[i][j] == '_'){
+                   if (board[i][j] == '-') {
                        board[i][j] = 'x';
-                       best = Math.max(minMax(board, depth+1, false), best);
-                       board[i][j] = '_';
-
-                   }
+                       best = Math.max(minMax(board, depth + 1, false, alpha, beta), best);
+                       alpha = Math.max(alpha, best);
+                       board[i][j] = '-';
+                       // Alpha Beta Pruning
+                       if (beta <= alpha) {
+                           i = board.length;
+                           j = board.length;
+                       } }
                }
 
            }
-           return best;
        }else{
-           int best = 10000;
-           for(int i = 0; i < board.length; i++){
-               for(int j = 0; j < board.length; j++){
-                   if (board[i][j] == '_'){
+           best = 10000;
+           //loops through all available spaces.
+           for(int i = 0; i < board.length; i++) {
+               for (int j = 0; j < board.length; j++) {
+                   if (board[i][j] == '-') {
                        board[i][j] = 'o';
-                       best = Math.min(minMax(board, depth+1, true), best);
-                       board[i][j] = '_';
+                       best = Math.min(minMax(board, depth + 1, true, alpha, beta), best);
+                       beta = Math.min(beta, best);
+                       board[i][j] = '-';
+                       //alpha beta pruning
+                       if (beta <= alpha) {
+                           i = board.length;
+                           j = board.length;
+                       }
                    }
                }
            }
-           return best;
        }
+       return best;
 
 
    }
+
+    /**Finds the best move for a given player on a board.
+     *
+     * @param board board object to find the best move for
+     * @param isMax wheter the best move is for the maximizer or the minimizer
+     * @return the location of the best move
+     */
    public int findBest(char[][] board, boolean isMax){
        int bestLocation = 0;
        if(isMax) {
            int bestScore = -10000;
-
+            // loops through each empty position
            for (int i = 0; i < board.length; i++) {
                for (int j = 0; j < board.length; j++) {
-                   if (board[i][j] == '_') {
+                   if (board[i][j] == '-') {
+                       //place their piece and saves it if it has the best (highest) score so far
                        board[i][j] = 'x';
-                       int moveVal = minMax(board, 0, false);
-                       board[i][j] = '_';
+                       int moveVal = minMax(board, 0, false, -1000, 1000);
+                       board[i][j] = '-';
                        if (moveVal > bestScore) {
-                           bestLocation = i * 3 + j;
+                           bestLocation = i * board.length + j;
                            bestScore = moveVal;
                        }
                    }
@@ -69,13 +100,13 @@ public class ComputerPlayer {
 
            for (int i = 0; i < board.length; i++) {
                for (int j = 0; j < board.length; j++) {
-                   if (board[i][j] == '_') {
-
+                   if (board[i][j] == '-') {
+                       //place their piece and saves it if it has the best (lowest) score so far
                        board[i][j] = 'o';
-                       int moveVal = minMax(board, 0, true);
-                       board[i][j] = '_';
+                       int moveVal = minMax(board, 0, true, -1000, 1000);
+                       board[i][j] = '-';
                        if (moveVal < bestScore) {
-                           bestLocation = i * 3 + j;
+                           bestLocation = i * board.length + j;
                            bestScore = moveVal;
 
                        }
@@ -83,8 +114,7 @@ public class ComputerPlayer {
                }
            }
        }
-       System.out.println(count);
-       count  = 0;
+
 
         return bestLocation;
    }
