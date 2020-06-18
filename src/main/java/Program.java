@@ -18,7 +18,7 @@ public class Program extends Canvas {
             if (mode.equals("z")) {
                 aiGame(utils);
             }
-                System.out.println("do yo want to play again? (y/n)");
+                System.out.println("do you want to play again? (y/n)");
         }while(console.next().toLowerCase().equals("y"));
 
     }
@@ -51,13 +51,13 @@ public class Program extends Canvas {
         System.out.println(board.toString());
         //end game message
         if (utils.score(board.getBoard()) == 0){
-            System.out.print("the game is a draw");
+            System.out.println("the game is a draw");
         }
         else if (utils.score(board.getBoard()) == 10){
-            System.out.print("player one has won");
+            System.out.println("player one has won");
         }
         else if (utils.score(board.getBoard()) == -10){
-            System.out.print("player two has won");
+            System.out.println("player two has won");
         }
     }
     /**plays through a game with one inputs being from the console and the other from the AI.
@@ -107,7 +107,7 @@ public class Program extends Canvas {
                     if (code == 'o'){
                         System.out.println("your selected  move is out of range");
                     }
-                    else if(code == 'k'){
+                    else if(code == 't'){
                         System.out.println("your selected  move is already taken");
                     }else{
                     turn++;}
@@ -123,13 +123,13 @@ public class Program extends Canvas {
         //endgame message
         System.out.println(board.toString());
         if (utils.score(board.getBoard()) == 0){
-            System.out.print("the game is a draw");
+            System.out.println("the game is a draw");
         }
         else if (utils.score(board.getBoard()) > 0){
-            System.out.print("player one has won");
+            System.out.println("player one has won");
         }
         else if (utils.score(board.getBoard()) < 0){
-            System.out.print("player two has won");
+            System.out.println("player two has won");
         }
     }
     /**
@@ -153,13 +153,13 @@ public class Program extends Canvas {
         } while (utils.hasMovesLeft(board.getBoard()) && utils.score(board.getBoard()) == 0);
         System.out.println(board.toString());
         if (utils.score(board.getBoard()) == 0){
-            System.out.print("the game is a draw");
+            System.out.println("the game is a draw");
         }
         else if (utils.score(board.getBoard()) > 0){
-            System.out.print("player one has won");
+            System.out.println("player one has won");
         }
         else if (utils.score(board.getBoard()) < 0){
-            System.out.print("player two has won");
+            System.out.println("player two has won");
         }
 
     }

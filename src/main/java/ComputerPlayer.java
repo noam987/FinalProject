@@ -36,13 +36,14 @@ public class ComputerPlayer {
                    if (board[i][j] == '-') {
                        board[i][j] = 'x';
                        best = Math.max(minMax(board, depth + 1, false, alpha, beta), best);
-                       alpha = Math.max(alpha, best);
                        board[i][j] = '-';
+                       alpha = Math.max(alpha, best);
                        // Alpha Beta Pruning
                        if (beta <= alpha) {
                            i = board.length;
                            j = board.length;
-                       } }
+                       }
+                       }
                }
 
            }
@@ -54,8 +55,8 @@ public class ComputerPlayer {
                    if (board[i][j] == '-') {
                        board[i][j] = 'o';
                        best = Math.min(minMax(board, depth + 1, true, alpha, beta), best);
-                       beta = Math.min(beta, best);
                        board[i][j] = '-';
+                       beta = Math.min(beta, best);
                        //alpha beta pruning
                        if (beta <= alpha) {
                            i = board.length;
